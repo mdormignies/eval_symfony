@@ -1,0 +1,23 @@
+<IfModule mod_rewrite.c>
+    RewriteEngine On
+
+    # On suit les liens symboliques
+    Options +FollowSymlinks
+
+    # Répertoire racine du projet
+    RewriteCond %{REQUEST_FILENAME} !-f
+    RewriteCond %{REQUEST_FILENAME} !-d
+
+    # Redirige tout vers index.php
+    RewriteRule ^ index.php [QSA,L]
+</IfModule>
+
+<IfModule mod_headers.c>
+    # Compression / cache (optionnel)
+    <FilesMatch "\.(js|css|png|jpg|jpeg|gif|ico|woff|woff2|ttf|svg)$">
+        Header set Cache-Control "max-age=31536000, public"
+    </FilesMatch>
+</IfModule>
+
+# Affiche les erreurs PHP si activé
+php_flag display_errors on
