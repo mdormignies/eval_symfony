@@ -1,0 +1,50 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Connexion{% endblock %}
+
+{% block body %}
+<div class="col-md-6 offset-md-3">
+    <h1 class="text-center mb-4">Connexion</h1>
+
+    {% if error %}
+        <div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
+    {% endif %}
+
+    {% if app.user %}
+        <div class="alert alert-success">
+            Vous êtes connecté en tant que {{ app.user.userIdentifier }}.
+            <a href="{{ path('app_logout') }}">Se déconnecter</a>
+        </div>
+    {% endif %}
+
+    <form method="post">
+        <div class="mb-3">
+            <label for="inputEmail" class="form-label">Email</label>
+            <input type="email" value="{{ last_username }}" name="email" id="inputEmail" class="form-control" required autofocus>
+        </div>
+
+        <div class="mb-3">
+            <label for="inputPassword" class="form-label">Mot de passe</label>
+            <input type="password" name="password" id="inputPassword" class="form-control" required>
+        </div>
+
+        <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
+
+        <div class="form-check mb-3">
+            <input class="form-check-input" type="checkbox" name="_remember_me" id="rememberMe">
+            <label class="form-check-label" for="rememberMe">
+                Se souvenir de moi
+            </label>
+        </div>
+
+        <div class="d-grid gap-2 mb-3">
+            <button class="btn btn-primary" type="submit">Se connecter</button>
+        </div>
+
+        <p class="text-center">
+            Pas encore de compte ?
+            <a href="{{ path('app_register') }}" class="btn btn-outline-secondary ms-2">Créer un compte</a>
+        </p>
+    </form>
+</div>
+{% endblock %}
